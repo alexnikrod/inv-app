@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Button, Icon, Segment, Header } from "semantic-ui-react";
+import AddNewProduct from "./AddNewProduct";
 
 const Products = (props) => {
   const { products } = props.products;
@@ -16,16 +17,7 @@ const Products = (props) => {
       </Segment>
 
       <div className="add-btn">
-        <Button
-          color="teal"
-          labelPosition="left"
-          floated="left"
-          icon
-          size="small"
-          // onClick={props.actCustomerModalShow}
-        >
-          <Icon name="wrench" /> Добавить инструмент
-        </Button>
+        <AddNewProduct />
       </div>
 
       <Table striped>

@@ -1,5 +1,7 @@
 import React from "react";
 import { Table, Button, Icon, Segment, Header } from "semantic-ui-react";
+import AddNewInvoice from "./AddNewInvoice";
+import AddNewCustomer from "../Customers/AddNewCustomer";
 
 const Invoices = (props) => {
   const { invoices } = props.invoices;
@@ -14,27 +16,10 @@ const Invoices = (props) => {
           </Header>
         </Header>
       </Segment>
+
       <div className="add-btn">
-        <Button
-          color="teal"
-          labelPosition="left"
-          floated="left"
-          icon
-          size="small"
-          // onClick={props.actInvoiceModalShow}
-        >
-          <Icon name="file" /> Создать заказ
-        </Button>
-        <Button
-          color="teal"
-          labelPosition="left"
-          floated="left"
-          icon
-          size="small"
-          // onClick={props.actCustomerModalShow}
-        >
-          <Icon name="user" /> Новый клиент
-        </Button>
+        <AddNewInvoice />
+        <AddNewCustomer />
       </div>
 
       <Table striped>
@@ -68,7 +53,12 @@ const Invoices = (props) => {
                 <Button icon color="orange" title="редактировать">
                   <Icon name="edit" />
                 </Button>
-                <Button icon negative onClick={props.onDelete(item.id)} title="удалить">
+                <Button
+                  icon
+                  negative
+                  onClick={props.onDelete(item.id)}
+                  title="удалить"
+                >
                   <Icon name="x" />
                 </Button>
               </Table.Cell>

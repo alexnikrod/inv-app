@@ -144,15 +144,6 @@
       "total": "1400"
     },
     {
-      "id": 7,
-      "customer": "555",
-      "product": "88",
-      "days": "7",
-      "deposit": "88",
-      "payment": "88",
-      "total": 616
-    },
-    {
       "id": 8,
       "customer": "Черепанов Василий Яковлевич",
       "product": "Пила торцовочная DeWolt DW 713",

@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Button, Icon, Segment, Header } from "semantic-ui-react";
+import AddNewCustomer from "./AddNewCustomer";
 
 const Customers = (props) => {
   const { customers } = props.customers;
@@ -16,16 +17,7 @@ const Customers = (props) => {
       </Segment>
 
       <div className="add-btn">
-        <Button
-          color="teal"
-          labelPosition="left"
-          floated="left"
-          icon
-          size="small"
-          // onClick={props.actCustomerModalShow}
-        >
-          <Icon name="user" /> Новый клиент
-        </Button>
+        <AddNewCustomer />
       </div>
 
       <Table striped>
