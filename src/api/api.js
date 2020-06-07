@@ -1,11 +1,8 @@
 import * as axios from "axios";
 
 const instance = axios.create({
-  // withCredentials: true,
-  baseURL: "http://localhost:3001",
-  // headers: {
-  //   "API-KEY": "d075aadf-9fc0-4045-9fac-f3aa46fa4e92"
-  // }
+  // baseURL: "http://localhost:3001",
+  baseURL: "https://server-invoices1.herokuapp.com"
 });
 // INVOICES
 export const invoiceAPI = {
