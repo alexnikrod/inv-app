@@ -1,4 +1,4 @@
-## [DEMO](https://github.com/facebook/create-react-app)
+## [DEMO](https://invoice-app-h0qshbj9x.now.sh)
 
 ## Rental App (Invoices, DB) - React JS + Redux
 
