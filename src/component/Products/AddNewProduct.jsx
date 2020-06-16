@@ -3,28 +3,76 @@ import { connect } from "react-redux";
 import { Button, Modal, Icon, Form } from "semantic-ui-react";
 
 import {
-  actProductModalShow,
-  actProductModalHide,
+  productModalShow,
+  productModalHide,
+  fetchPutProducts,
 } from "../../redux/productsReducer";
 
 class AddNewCustomer extends React.Component {
-  state = { modalOpen: false };
+  state = {
+    modalOpen: false,
+    id: "",
+    productName: "",
+    productPrice: "",
+    productDeposit: "",
+    productPayment: "",
+    productCategory: "",
+    productDescription: "",
+  };
 
-  handleOpen = () => {
-    this.props.actProductModalShow();
+  handleOpenModal = () => {
+    this.props.productModalShow();
     this.setState({ modalOpen: true });
   };
 
-  handleClose = () => {
-    this.props.actProductModalHide();
-    this.setState({ modalOpen: false });
+  handleCloseModal = () => {
+    this.setState({
+      modalOpen: false,
+      id: "",
+      productName: "",
+      productPrice: "",
+      productDeposit: "",
+      productPayment: "",
+      productCategory: "",
+      productDescription: "",
+    });
+    this.props.productModalHide();
+  };
+
+  handleOnChange = ({ target: { value, name } }) => {
+    this.setState({ [name]: value });
+  };
+
+  addNewProduct = (event) => {
+    event.preventDefault(event);
+    const {
+      id,
+      productName,
+      productPrice,
+      productDeposit,
+      productPayment,
+      productCategory,
+      productDescription,
+    } = this.state;
+    const newProduct = {
+      id: id,
+      name: productName,
+      price: productPrice,
+      deposit: productDeposit,
+      payment: productPayment,
+      category: productCategory,
+      description: productDescription,
+    };
+    this.props.fetchPutProducts(newProduct);
+    this.handleCloseModal();
   };
 
   render() {
     return (
       <div>
         <Modal
-          dimmer={"blurring"}
+          // dimmer={"blurring"}
+          dimmer={"inverted"}
           trigger={
             <Button
               color="teal"
@@ -32,50 +80,81 @@ class AddNewCustomer extends React.Component {
               floated="left"
               icon
               size="small"
-              onClick={this.handleOpen}
+              onClick={this.handleOpenModal}
             >
-              <Icon name="wrench" /> Добавить инструмент
+              <Icon name="wrench" />
+              Добавить инструмент
             </Button>
           }
           open={this.state.modalOpen}
-          onClose={this.handleClose}
+          onClose={this.handleCloseModal}
         >
           <Modal.Header>Добавить новый инструмент</Modal.Header>
 
           <Modal.Content>
-          <Form>
+            <Form>
               <Form.Field>
                 <label>Название инструмента:</label>
-                <input placeholder="Введите название инструмента" />
+                <input
+                  placeholder="Введите название инструмента"
+                  name="productName"
+                  onChange={this.handleOnChange}
+                />
               </Form.Field>
               <Form.Field>
                 <label>Цена инструмента:</label>
-                <input placeholder="Введите цену инструмента" />
+                <input placeholder="Введите цену инструмента" 
+                name="productPrice"
+                onChange={this.handleOnChange}
+                />
               </Form.Field>
               <Form.Field>
                 <label>Залог:</label>
-                <input placeholder="Введите залог за инструмент" />
+                <input placeholder="Введите залог за инструмент" 
+                name="productDeposit"
+                onChange={this.handleOnChange}
+                />
               </Form.Field>
               <Form.Field>
                 <label>Оплата за сутки:</label>
-                <input placeholder="Введите оплату за сутки" />
+                <input placeholder="Введите оплату за сутки" 
+                name="productPayment"
+                onChange={this.handleOnChange}
+                />
               </Form.Field>
               <Form.Field>
                 <label>Категория инструмента:</label>
-                <input placeholder="Введите категорию инструмента" />
+                <input placeholder="Введите категорию инструмента" 
+                name="productCategory"
+                onChange={this.handleOnChange}
+                />
               </Form.Field>
               <Form.Field>
                 <label>Описание инструмента:</label>
-                <input placeholder="Введите описание инструмента" />
+                <input placeholder="Введите описание инструмента" 
+                name="productDescription"
+                onChange={this.handleOnChange}
+                />
               </Form.Field>
             </Form>
           </Modal.Content>
 
           <Modal.Actions>
-            <Button onClick={this.handleClose}>
+            <Button onClick={this.handleCloseModal}>
               <Icon name="remove" /> Отменить
             </Button>
-            <Button positive onClick={this.close}>
+            <Button
+              positive
+              onClick={this.addNewProduct}
+              disabled={
+                this.state.productName === "" ||
+                this.state.productPrice === "" ||
+                this.state.productDeposit === "" ||
+                this.state.productPayment === "" ||
+                this.state.productCategory === "" ||
+                this.state.productDescription === ""
+              }
+            >
               <Icon name="checkmark" /> Сохранить
             </Button>
           </Modal.Actions>
@@ -87,23 +166,15 @@ class AddNewCustomer extends React.Component {
 
 const mapStateToProps = (store) => {
   return {
-    customers: store.customers,
     products: store.products,
-    invoices: store.invoices,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actProductModalShow: (payload) => dispatch(actProductModalShow(payload)),
-    actProductModalHide: (payload) => dispatch(actProductModalHide(payload)),
-    // actCancelNewInvoices: payload => dispatch(actCancelNewInvoices(payload)),
-    // actChangeInputValue: payload => dispatch(actChangeInputValue(payload)),
-    // fetchPutInvoices: payload => dispatch(fetchPutInvoices(payload)),
-    // fetchPutInvoiceDetails: payload => dispatch(fetchPutInvoiceDetails(payload)),
-    // fetchEditInvoices: payload => dispatch(fetchEditInvoices(payload)),
-    // fetchEditInvoiceDetails: payload => dispatch(fetchEditInvoiceDetails(payload)),
-    // fetchDeleteInvoiceDetails: payload => dispatch(fetchDeleteInvoiceDetails(payload)),
+    productModalShow: (payload) => dispatch(productModalShow(payload)),
+    productModalHide: (payload) => dispatch(productModalHide(payload)),
+    fetchPutProducts: (payload) => dispatch(fetchPutProducts(payload)),
   };
 };
 

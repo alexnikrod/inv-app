@@ -5,12 +5,13 @@ import { Button, Modal, Icon, Form } from "semantic-ui-react";
 import {
   invoiceModalShow,
   invoiceModalHide,
+  fetchPutInvoices
 } from "../../redux/invoicesReducer";
 
 class AddNewInvoice extends React.Component {
   state = {
     modalOpen: false,
-    invoiceId: "",
+    id: "",
     customer: "",
     product: "",
     days: "",
@@ -19,14 +20,14 @@ class AddNewInvoice extends React.Component {
     total: "",
   };
 
-  handleOpen = () => {
+  handleOpenModal = () => {
     this.props.invoiceModalShow();
     this.setState({ modalOpen: true });
   };
 
-  handleClose = () => {
+  handleCloseModal = () => {
     this.setState({
-      invoiceId: "",
+      id: "",
       customer: "",
       product: "",
       days: "",
@@ -34,8 +35,30 @@ class AddNewInvoice extends React.Component {
       payment: "",
       total: "",
     });
-    this.props.invoiceModalHide();
     this.setState({ modalOpen: false });
+    this.props.invoiceModalHide();
+  };
+
+  handleOnChange = ({ target: { value, name } }) => {
+    this.setState({ [name]: value });
+  };
+
+  addNewInvoice = (event) => {
+    event.preventDefault(event);
+    const { id, customer, product, days } = this.state;
+    const { products } = this.props.products;
+    const currentProduct = products.find((item) => item.name === product);
+    const newInvoice = {
+      id: id,
+      customer,
+      product,
+      days,
+      deposit: currentProduct.deposit,
+      payment: currentProduct.payment,
+      total: currentProduct.payment * days,
+    };
+    this.props.fetchPutInvoices(newInvoice);
+    this.handleCloseModal();
   };
 
   render() {
@@ -63,7 +86,7 @@ class AddNewInvoice extends React.Component {
     return (
       <div>
         <Modal
-          dimmer={"blurring"}
+          dimmer={"inverted"}
           trigger={
             <Button
               color="teal"
@@ -71,13 +94,13 @@ class AddNewInvoice extends React.Component {
               floated="left"
               icon
               size="small"
-              onClick={this.handleOpen}
+              onClick={this.handleOpenModal}
             >
               <Icon name="file" /> Создать заказ
             </Button>
           }
           open={this.state.modalOpen}
-          onClose={this.handleClose}
+          onClose={this.handleCloseModal}
         >
           <Modal.Header>
             Добавить новый заказ
@@ -85,7 +108,11 @@ class AddNewInvoice extends React.Component {
               primary
               floated="right"
               onClick={this.close}
-              disabled={this.state.customer === "" || this.state.product === ""}
+              disabled={
+                this.state.customer === "" ||
+                this.state.product === "" ||
+                this.state.days === ""
+              }
             >
               <Icon name="print" />
               Печатать
@@ -120,13 +147,17 @@ class AddNewInvoice extends React.Component {
           </Modal.Content>
 
           <Modal.Actions>
-            <Button onClick={this.handleClose}>
+            <Button onClick={this.handleCloseModal}>
               <Icon name="remove" /> Отменить
             </Button>
             <Button
               positive
-              onClick={this.close}
-              disabled={this.state.customer === "" || this.state.product === ""}
+              onClick={this.addNewInvoice}
+              disabled={
+                this.state.customer === "" ||
+                this.state.product === "" ||
+                this.state.days === ""
+              }
             >
               <Icon name="checkmark" /> Сохранить
             </Button>
@@ -139,9 +170,9 @@ class AddNewInvoice extends React.Component {
 
 const mapStateToProps = (store) => {
   return {
+    invoices: store.invoices,
     customers: store.customers,
     products: store.products,
-    invoices: store.invoices,
   };
 };
 
@@ -149,13 +180,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     invoiceModalShow: (payload) => dispatch(invoiceModalShow(payload)),
     invoiceModalHide: (payload) => dispatch(invoiceModalHide(payload)),
-    // actCancelNewInvoices: payload => dispatch(actCancelNewInvoices(payload)),
-    // actChangeInputValue: payload => dispatch(actChangeInputValue(payload)),
-    // fetchPutInvoices: payload => dispatch(fetchPutInvoices(payload)),
-    // fetchPutInvoiceDetails: payload => dispatch(fetchPutInvoiceDetails(payload)),
-    // fetchEditInvoices: payload => dispatch(fetchEditInvoices(payload)),
-    // fetchEditInvoiceDetails: payload => dispatch(fetchEditInvoiceDetails(payload)),
-    // fetchDeleteInvoiceDetails: payload => dispatch(fetchDeleteInvoiceDetails(payload)),
+    fetchPutInvoices: payload => dispatch(fetchPutInvoices(payload)),
   };
 };
 

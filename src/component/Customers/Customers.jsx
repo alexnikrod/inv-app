@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Button, Icon, Segment, Header } from "semantic-ui-react";
+
 import AddNewCustomer from "./AddNewCustomer";
+import NewCustomer from "./NewCustomer";
+import EditCustomer from "./EditCustomer";
 
 const Customers = (props) => {
+  const [showModal, setShowModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false)
+
   const { customers } = props.customers;
 
   return (
@@ -16,8 +22,17 @@ const Customers = (props) => {
         </Header>
       </Segment>
 
-      <div className="add-btn">
+      <div>
         <AddNewCustomer />
+        <Button
+          positive
+          labelPosition="left"
+          icon
+          onClick={() => setShowModal(true)}
+        >
+          <Icon name="user" />
+          Новый клиент3
+        </Button>
       </div>
 
       <Table striped>
@@ -28,7 +43,7 @@ const Customers = (props) => {
             <Table.HeaderCell>Паспорт</Table.HeaderCell>
             <Table.HeaderCell width="3">Адрес</Table.HeaderCell>
             <Table.HeaderCell width="3">Телефон</Table.HeaderCell>
-            <Table.HeaderCell width="3" />
+            <Table.HeaderCell width="3">Действия</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -41,13 +56,20 @@ const Customers = (props) => {
               <Table.Cell verticalAlign="middle">{item.address}</Table.Cell>
               <Table.Cell verticalAlign="middle">{item.phone}</Table.Cell>
               <Table.Cell verticalAlign="middle">
-                <Button icon positive>
-                  <Icon name="chevron down" title="закрыть"/>
-                </Button>
-                <Button icon color="orange" title="редактировать">
+                <Button
+                  icon
+                  color="orange"
+                  onClick={() => setIsEdit(true)}
+                  title="редактировать"
+                >
                   <Icon name="edit" />
                 </Button>
-                <Button icon negative onClick={props.onDelete(item.id)} title="удалить">
+                <Button
+                  icon
+                  negative
+                  onClick={props.onDelete(item.id)}
+                  title="удалить"
+                >
                   <Icon name="x" />
                 </Button>
               </Table.Cell>
@@ -55,6 +77,8 @@ const Customers = (props) => {
           ))}
         </Table.Body>
       </Table>
+      <EditCustomer open={isEdit} close={() => setIsEdit(false)}/>
+      <NewCustomer open={showModal} close={() => setShowModal(false)} addNew={props.addNew}/>
     </Segment>
   );
 };

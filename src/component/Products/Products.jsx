@@ -30,7 +30,7 @@ const Products = (props) => {
             <Table.HeaderCell>За сутки</Table.HeaderCell>
             <Table.HeaderCell>Категория</Table.HeaderCell>
             <Table.HeaderCell>Описание</Table.HeaderCell>
-            <Table.HeaderCell width="3" />
+            <Table.HeaderCell width="3">Действия</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -45,9 +45,6 @@ const Products = (props) => {
               <Table.Cell verticalAlign="middle">{item.category}</Table.Cell>
               <Table.Cell verticalAlign="middle">{item.description}</Table.Cell>
               <Table.Cell verticalAlign="middle">
-                <Button icon positive title="закрыть">
-                  <Icon name="chevron down" />
-                </Button>
                 <Button icon color="orange" title="редактировать">
                   <Icon name="edit" />
                 </Button>

@@ -12,15 +12,15 @@ export const PRODUCT_MODAL_HIDE = "PRODUCT_MODAL_HIDE";
 const productState = {
   /* products */
   products: [],
-  productName: "",
-  productPrice: "",
-  productDeposit: "",
-  productPayment: "",
-  productCategory: "",
-  productDescription: "",
-  products2: [],
   productModalShow: false,
-  editingProduct: 0,
+  // productName: "",
+  // productPrice: "",
+  // productDeposit: "",
+  // productPayment: "",
+  // productCategory: "",
+  // productDescription: "",
+  // products2: [],
+  // editingProduct: 0,
 };
 
 const productsReducer = (state = productState, action) => {
@@ -41,6 +41,12 @@ const productsReducer = (state = productState, action) => {
         ...state,
         products: updatedProducts,
       };
+    case FETCH_PUT_PRODUCTS_SUCCESSFUL:
+      const newProducts = [...productsCopy, action.payload];
+      return {
+        ...state,
+        products: newProducts,
+      };
     case PRODUCT_MODAL_SHOW:
       return { ...state, productModalShow: true };
     case PRODUCT_MODAL_HIDE:
@@ -50,11 +56,11 @@ const productsReducer = (state = productState, action) => {
   }
 };
 
-export function actProductModalShow(payload) {
+export function productModalShow(payload) {
   return { type: PRODUCT_MODAL_SHOW, payload };
 }
 
-export function actProductModalHide(payload) {
+export function productModalHide(payload) {
   return { type: PRODUCT_MODAL_HIDE, payload };
 }
 
@@ -79,6 +85,44 @@ export const fetchDeleteProducts = (id) => {
     let response = await productAPI.deleteProduct(id);
     console.log(response);
     dispatch(fetchDeleteProductsSuccessful(id));
+  };
+};
+
+export function fetchPutProductsSuccessful(data) {
+  return {
+    type: FETCH_PUT_PRODUCTS_SUCCESSFUL,
+    payload: {
+      id: data.id,
+      name: data.name,
+      price: data.price,
+      category: data.category,
+      deposit: data.deposit,
+      description: data.description,
+      payment: data.payment,
+    },
+  };
+}
+
+export const fetchPutProducts = ({
+  id,
+  name,
+  price,
+  category,
+  deposit,
+  description,
+  payment,
+}) => {
+  return async (dispatch) => {
+    let response = await productAPI.addProduct({
+      id,
+      name,
+      price,
+      category,
+      deposit,
+      description,
+      payment,
+    });
+    dispatch(fetchPutProductsSuccessful(response));
   };
 };
 

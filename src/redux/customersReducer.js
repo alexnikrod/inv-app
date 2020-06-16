@@ -13,14 +13,14 @@ export const CUSTOMER_MODAL_HIDE = "CUSTOMER_MODAL_HIDE";
 const customerState = {
   /* customers */
   customers: [],
-  customerName: "",
-  customerPass: "",
-  customerAddress: "",
-  customerPhone: "",
   customerModalShow: false,
-  editingCustomer: 0,
+  // customerName: "",
+  // customerPass: "",
+  // customerAddress: "",
+  // customerPhone: "",
+  // editingCustomer: 0,
   customerToEdit: {},
-  customerArr: [],
+  // customerArr: [],
 };
 
 const customersReducer = (state = customerState, action) => {
@@ -33,7 +33,6 @@ const customersReducer = (state = customerState, action) => {
         customers: action.payload,
       };
     case FETCH_DELETE_CUSTOMERS_SUCCESSFUL:
-      // const idForDelete = action.payload.id;
       const updatedCustomers = customersCopy.filter(
         (item) => item.id !== action.custId
       );
@@ -47,13 +46,37 @@ const customersReducer = (state = customerState, action) => {
       return {
         ...state,
         customerModalShow: false,
-        customerName: "",
-        customerPass: "",
-        customerAddress: "",
-        customerPhone: "",
-        customerToEdit: {},
-        editingCustomer: 0,
+        // customerName: "",
+        // customerPass: "",
+        // customerAddress: "",
+        // customerPhone: "",
+        // customerToEdit: {},
+        // editingCustomer: 0,
       };
+    case FETCH_PUT_CUSTOMERS_SUCCESSFUL:
+      const newCustomers = [...customersCopy, action.payload];
+      return {
+        ...state,
+        customers: newCustomers,
+      };
+    case FETCH_EDIT_CUSTOMERS_SUCCESSFUL:
+      console.log("case: ", action.payload)
+      // customerToEdit.name = action.payload.name;
+      // customerToEdit.pass = action.payload.pass;
+      // customerToEdit.address = action.payload.address;
+      // customerToEdit.phone = action.payload.phone;
+      return {
+        ...state,
+        customers: customersCopy,
+        customerToEdit: action.payload
+        // customerModalShow: false,
+        // customerName: "",
+        // customerPass: "",
+        // customerAddress: "",
+        // customerPhone: "",
+        // editingCustomer: 0,
+      };
+
     default:
       return state;
   }
@@ -78,16 +101,61 @@ export const fetchCustomers = () => {
   };
 };
 
-export function fetchdeleteCustomerSuccessful(custId) {
-  // const {id} = data;
+export function fetchDeleteCustomerSuccessful(custId) {
   return { type: FETCH_DELETE_CUSTOMERS_SUCCESSFUL, custId };
 }
 
-export const fetchdeleteCustomer = (id) => {
+export const fetchDeleteCustomer = (id) => {
   return async (dispatch) => {
     let response = await customerAPI.deleteCustomer(id);
     console.log(response);
-    dispatch(fetchdeleteCustomerSuccessful(id));
+    dispatch(fetchDeleteCustomerSuccessful(id));
+  };
+};
+
+export function fetchPutCustomersSuccessful(data) {
+  return {
+    type: FETCH_PUT_CUSTOMERS_SUCCESSFUL,
+    payload: {
+      id: data.id,
+      name: data.name,
+      pass: data.pass,
+      address: data.address,
+      phone: data.phone,
+    },
+  };
+}
+
+export const fetchPutCustomers = ({ id, name, pass, address, phone }) => {
+  return async (dispatch) => {
+    let response = await customerAPI.addCustomer({
+      id,
+      name,
+      pass,
+      address,
+      phone,
+    });
+    dispatch(fetchPutCustomersSuccessful(response));
+  };
+};
+
+export function fetchEditCustomersSuccessful(data) {
+  return { type: FETCH_EDIT_CUSTOMERS_SUCCESSFUL, payload: data };
+}
+
+export const fetchEditCustomers = ({ id, name, pass, address, phone }) => {
+  console.log("ac: ")
+  // const {name, pass, address, phone} = payload;
+  return async (dispatch) => {
+    let response = await customerAPI.editCustomer({
+      id,
+      name,
+      pass,
+      address,
+      phone,
+    });
+    console.log("before dispatch: ", response)
+    dispatch(fetchEditCustomersSuccessful(response));
   };
 };
 

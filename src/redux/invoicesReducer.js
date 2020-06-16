@@ -12,7 +12,6 @@ const invoiceState = {
   /* invoices */
   invoices: [],
   invoiceModalShow: false,
-
   // isAddingInvoice: false,
   // newInvoice: {},
   // newCustomer: "",
@@ -22,13 +21,12 @@ const invoiceState = {
   // editingInvoice: 0,
   // idForDetails: 0,
   // invoiceToEdit: {},
-  // currentInvoiceId: 1,
+  // currentid: 1,
   // invoiceMenu: false,
 };
 
 const invoicesReducer = (state = invoiceState, action) => {
-  // const invoiceCopy = [...state.invoices];
-  // const { id = 0 } = action.payload ? action.payload : {};
+  const invoiceCopy = [...state.invoices];
 
   switch (action.type) {
     case FETCH_INVOICES_SUCCESSFUL:
@@ -37,10 +35,18 @@ const invoicesReducer = (state = invoiceState, action) => {
         invoices: action.payload,
       };
     case FETCH_DELETE_INVOICES_SUCCESSFUL:
-      // const updatedInvoices = invoiceCopy.filter((item) => item.id !== action.id);
       return {
         ...state,
         invoices: state.invoices.filter((p) => p.id !== action.invId),
+      };
+    case FETCH_PUT_INVOICES_SUCCESSFUL:
+      const newInvoices = [...invoiceCopy, action.payload];
+      // const newCurrentInvoiceId = action.payload.id + 1;
+      return {
+        ...state,
+        invoices: newInvoices,
+        // idForDetails: action.payload.id,
+        // currentInvoiceId: newCurrentInvoiceId,
       };
     case INVOICE_MODAL_SHOW:
       return { ...state, invoiceModalShow: true };
@@ -80,6 +86,44 @@ export const fetchdeleteInvoice = (id) => {
     let response = await invoiceAPI.deleteInvoice(id);
     console.log(response);
     dispatch(fetchdeleteInvoiceSuccessful(id));
+  };
+};
+
+export function fetchPutInvoicesSuccessful(data) {
+  return {
+    type: FETCH_PUT_INVOICES_SUCCESSFUL,
+    payload: {
+      id: data.id,
+      customer: data.customer,
+      product: data.product,
+      days: data.days,
+      deposit: data.deposit,
+      payment: data.payment,
+      total: data.total,
+    },
+  };
+}
+
+export const fetchPutInvoices = ({
+  id,
+  customer,
+  product,
+  days,
+  deposit,
+  payment,
+  total,
+}) => {
+  return async (dispatch) => {
+    let response = await invoiceAPI.addInvoice({
+      id,
+      customer,
+      product,
+      days,
+      deposit,
+      payment,
+      total,
+    });
+    dispatch(fetchPutInvoicesSuccessful(response));
   };
 };
 

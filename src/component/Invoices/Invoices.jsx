@@ -32,7 +32,7 @@ const Invoices = (props) => {
             <Table.HeaderCell width="1">Дней</Table.HeaderCell>
             <Table.HeaderCell width="1">Стоимость</Table.HeaderCell>
             <Table.HeaderCell width="1">Итого</Table.HeaderCell>
-            <Table.HeaderCell width="3" />
+            <Table.HeaderCell width="3">Действия</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 

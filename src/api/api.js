@@ -1,8 +1,8 @@
 import * as axios from "axios";
 
 const instance = axios.create({
-  // baseURL: "http://localhost:3001",
-  baseURL: "https://server-invoices1.herokuapp.com"
+  baseURL: "http://localhost:3001",
+  // baseURL: "https://server-invoices1.herokuapp.com"
 });
 // INVOICES
 export const invoiceAPI = {
@@ -13,6 +13,21 @@ export const invoiceAPI = {
   },
   deleteInvoice(id) {
     return instance.delete(`/invoices/${id}`);
+  },
+  addInvoice({ id, customer, product, days, deposit, payment, total }) {
+    return instance
+      .post(`/invoices`, {
+        id,
+        customer,
+        product,
+        days,
+        deposit,
+        payment,
+        total,
+      })
+      .then((response) => {
+        return response.data;
+      });
   },
 };
 // CUSTOMERS
@@ -25,6 +40,27 @@ export const customerAPI = {
   deleteCustomer(id) {
     return instance.delete(`/customers/${id}`);
   },
+  addCustomer({ id, name, pass, address, phone }) {
+    return instance
+      .post(`/customers`, {
+        id,
+        name,
+        pass,
+        address,
+        phone,
+      })
+      .then((response) => {
+        return response.data;
+      });
+  },
+  editCustomer({ id, name, pass, address, phone }) {
+    return instance
+      .put(`/customers/${id}`, { name, pass, address, phone })
+      .then((response) => {
+        console.log("api: ", response.data)
+        return response.data;
+      });
+  },
 };
 // PRODUCTS
 export const productAPI = {
@@ -35,5 +71,20 @@ export const productAPI = {
   },
   deleteProduct(id) {
     return instance.delete(`/products/${id}`);
+  },
+  addProduct({ id, name, price, category, deposit, description, payment }) {
+    return instance
+      .post(`/products`, {
+        id,
+        name,
+        price,
+        category,
+        deposit,
+        description,
+        payment,
+      })
+      .then((response) => {
+        return response.data;
+      });
   },
 };
