@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import { Table, Button, Icon, Segment, Header } from "semantic-ui-react";
 
-import AddNewCustomer from "./AddNewCustomer";
 import NewCustomer from "./NewCustomer";
 import EditCustomer from "./EditCustomer";
 
 const Customers = (props) => {
   const [showModal, setShowModal] = useState(false);
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false);
+  const [currentCustomer, setCurrentCustomer] = useState({});
 
   const { customers } = props.customers;
+
+  const onEdit = (customer) => (event) => {
+    event.preventDefault(event);
+    setIsEdit(true);
+    setCurrentCustomer({
+      id: customer.id,
+      name: customer.name,
+      pass: customer.pass,
+      address: customer.address,
+      phone: customer.phone,
+    });
+  };
+
+  
 
   return (
     <Segment>
@@ -23,7 +37,6 @@ const Customers = (props) => {
       </Segment>
 
       <div>
-        <AddNewCustomer />
         <Button
           positive
           labelPosition="left"
@@ -31,7 +44,7 @@ const Customers = (props) => {
           onClick={() => setShowModal(true)}
         >
           <Icon name="user" />
-          Новый клиент3
+          Новый клиент
         </Button>
       </div>
 
@@ -59,7 +72,7 @@ const Customers = (props) => {
                 <Button
                   icon
                   color="orange"
-                  onClick={() => setIsEdit(true)}
+                  onClick={onEdit(item)}
                   title="редактировать"
                 >
                   <Icon name="edit" />
@@ -77,8 +90,12 @@ const Customers = (props) => {
           ))}
         </Table.Body>
       </Table>
-      <EditCustomer open={isEdit} close={() => setIsEdit(false)}/>
-      <NewCustomer open={showModal} close={() => setShowModal(false)} addNew={props.addNew}/>
+      <EditCustomer open={isEdit} close={() => setIsEdit(false)} currentCustomer={currentCustomer} update={props.update}/>
+      <NewCustomer
+        open={showModal}
+        close={() => setShowModal(false)}
+        addNew={props.addNew}
+      />
     </Segment>
   );
 };

@@ -14,13 +14,6 @@ const customerState = {
   /* customers */
   customers: [],
   customerModalShow: false,
-  // customerName: "",
-  // customerPass: "",
-  // customerAddress: "",
-  // customerPhone: "",
-  // editingCustomer: 0,
-  customerToEdit: {},
-  // customerArr: [],
 };
 
 const customersReducer = (state = customerState, action) => {
@@ -46,12 +39,6 @@ const customersReducer = (state = customerState, action) => {
       return {
         ...state,
         customerModalShow: false,
-        // customerName: "",
-        // customerPass: "",
-        // customerAddress: "",
-        // customerPhone: "",
-        // customerToEdit: {},
-        // editingCustomer: 0,
       };
     case FETCH_PUT_CUSTOMERS_SUCCESSFUL:
       const newCustomers = [...customersCopy, action.payload];
@@ -61,20 +48,14 @@ const customersReducer = (state = customerState, action) => {
       };
     case FETCH_EDIT_CUSTOMERS_SUCCESSFUL:
       console.log("case: ", action.payload)
-      // customerToEdit.name = action.payload.name;
-      // customerToEdit.pass = action.payload.pass;
-      // customerToEdit.address = action.payload.address;
-      // customerToEdit.phone = action.payload.phone;
       return {
         ...state,
-        customers: customersCopy,
-        customerToEdit: action.payload
-        // customerModalShow: false,
-        // customerName: "",
-        // customerPass: "",
-        // customerAddress: "",
-        // customerPhone: "",
-        // editingCustomer: 0,
+        customers: state.customers.map(
+          item => 
+          item.id === action.payload.id
+            ? action.payload
+            : item
+        ),
       };
 
     default:

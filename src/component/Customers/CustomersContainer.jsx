@@ -28,14 +28,22 @@ class CustomersContainer extends React.Component {
     this.props.fetchEditCustomers(customerToEdit)
   }
 
+  // editCustomer = (id, updatedCustomer) => {
+  //   const { customers } = this.props.customers;
+  //   let edited = customers.map(customer => (customer.id === id ? updatedCustomer : customer))
+
+  //   console.log(updatedCustomer)
+  // }
+
   render() {
     return (
       <Customers
         {...this.props}
         customers={this.props.customers}
         onDelete={this.deleteCustomer}
-        // onEdit={this.editCustomer}
+        editCustomer={this.editCustomer}
         addNew={this.props.fetchPutCustomers}
+        update={this.props.fetchEditCustomers}
       />
     );
   }

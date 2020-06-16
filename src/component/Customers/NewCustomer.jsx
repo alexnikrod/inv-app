@@ -19,7 +19,7 @@ const NewCustomer = ({ open, close, addNew }) => {
   return (
     <div>
       <Modal open={open} dimmer="inverted" onClose={close}>
-        <Modal.Header>NEW Customer</Modal.Header>
+        <Modal.Header>Добавить нового клиента</Modal.Header>
 
         <Modal.Content>
           <Form>
@@ -66,7 +66,7 @@ const NewCustomer = ({ open, close, addNew }) => {
           <Button
             positive
             onClick={addNewCustomer}
-            // disabled={Object.keys(newCustomer).length !== 4}
+            disabled={Object.keys(values).length !== 4}
           >
             <Icon name="checkmark" /> Сохранить
           </Button>
