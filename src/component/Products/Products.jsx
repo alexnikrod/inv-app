@@ -1,9 +1,29 @@
-import React from "react";
-import { Table, Button, Icon, Segment, Header } from "semantic-ui-react";
-import AddNewProduct from "./AddNewProduct";
+import React, { useState } from "react";
+import { Table, Button, Icon, Segment, Header, Checkbox } from "semantic-ui-react";
+
+import NewProduct from "./NewProduct";
+import EditProduct from "./EditProduct";
 
 const Products = (props) => {
+  const [showModal, setShowModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState({});
+
   const { products } = props.products;
+
+  const onEdit = (product) => (event) => {
+    event.preventDefault(event);
+    setIsEdit(true);
+    setCurrentProduct({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      deposit: product.deposit,
+      payment: product.payment,
+      category: product.category,
+      description: product.description,
+    });
+  };
 
   return (
     <Segment>
@@ -16,10 +36,28 @@ const Products = (props) => {
         </Header>
       </Segment>
 
-      <div className="add-btn">
-        <AddNewProduct />
+      <div>
+        <Button
+          positive
+          labelPosition="left"
+          icon
+          onClick={() => setShowModal(true)}
+        >
+          <Icon name="wrench" />
+          Добавить инструмент
+        </Button>
+        {/* <Checkbox 
+        toggle 
+        label="в наличии" 
+        className="toggle-btn"
+        /> */}
       </div>
-
+      <NewProduct
+        open={showModal}
+        close={() => setShowModal(false)}
+        addNew={props.addNew}
+      />
+      
       <Table striped>
         <Table.Header>
           <Table.Row textAlign="center">
@@ -45,7 +83,12 @@ const Products = (props) => {
               <Table.Cell verticalAlign="middle">{item.category}</Table.Cell>
               <Table.Cell verticalAlign="middle">{item.description}</Table.Cell>
               <Table.Cell verticalAlign="middle">
-                <Button icon color="orange" title="редактировать">
+                <Button
+                  icon
+                  color="orange"
+                  onClick={onEdit(item)}
+                  title="редактировать"
+                >
                   <Icon name="edit" />
                 </Button>
                 <Button
@@ -56,6 +99,12 @@ const Products = (props) => {
                 >
                   <Icon name="x" />
                 </Button>
+                <EditProduct
+                  open={isEdit}
+                  close={() => setIsEdit(false)}
+                  currentProduct={currentProduct}
+                  update={props.update}
+                />
               </Table.Cell>
             </Table.Row>
           ))}

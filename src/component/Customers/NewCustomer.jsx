@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const NewCustomer = ({ open, close, addNew }) => {
   const [values, setValues] = useState({});
-  
+
   const handleOnChange = ({ target: { value, name } }) => {
     setValues({ ...values, [name]: value });
   };
@@ -13,7 +13,7 @@ const NewCustomer = ({ open, close, addNew }) => {
     event.preventDefault(event);
     addNew(values);
     close();
-    setValues({})
+    setValues({});
   };
 
   return (

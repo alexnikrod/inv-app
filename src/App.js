@@ -1,13 +1,23 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
+import { withSuspense } from "./component/withSuspense";
 import NavBar from "./component/NavBar";
-import CustomersContainer from "./component/Customers/CustomersContainer";
-import InvoicesContainer from "./component/Invoices/InvoicesContainer";
-import ProductsContainer from "./component/Products/ProductsContainer";
-import HistoryContainer from "./component/History/HistoryContainer";
 
 import "./App.css";
+// Lazy loading with Suspense
+const InvoicesContainer = React.lazy(() =>
+  import("./component/Invoices/InvoicesContainer")
+);
+const CustomersContainer = React.lazy(() =>
+  import("./component/Customers/CustomersContainer")
+);
+const ProductsContainer = React.lazy(() =>
+  import("./component/Products/ProductsContainer")
+);
+const HistoryContainer = React.lazy(() =>
+  import("./component/History/HistoryContainer")
+);
 
 function App() {
   return (
@@ -15,10 +25,10 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path="/" render={() => <Redirect to={"/invoices"} />} />
-        <Route path="/invoices" render={() => <InvoicesContainer />} />
-        <Route path="/customers" render={() => <CustomersContainer />} />
-        <Route path="/products" render={() => <ProductsContainer />} />
-        <Route path="/history" render={() => <HistoryContainer />} />
+        <Route path="/invoices" render={withSuspense(InvoicesContainer)} />
+        <Route path="/customers" render={withSuspense(CustomersContainer)} />
+        <Route path="/products" render={withSuspense(ProductsContainer)} />
+        <Route path="/history" render={withSuspense(HistoryContainer)} />
       </Switch>
     </div>
   );

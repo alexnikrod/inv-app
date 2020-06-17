@@ -31,8 +31,8 @@
     {
       "name": "ivanov",
       "pass": "49999",
-      "address": "5",
-      "phone": "6",
+      "address": "am sonnen22",
+      "phone": "+78",
       "id": 5
     }
   ],
@@ -81,6 +81,15 @@
       "payment": "1000",
       "category": "Обработка материалов",
       "description": "Ширина ленты 75 мм"
+    },
+    {
+      "name": "66",
+      "price": "66",
+      "category": "66",
+      "deposit": "66",
+      "description": "66",
+      "payment": "66111",
+      "id": 6
     }
   ],
   "invoices": [
@@ -155,6 +164,15 @@
       "deposit": "3000",
       "payment": "1000",
       "total": 2000
+    },
+    {
+      "customer": "ivanov",
+      "product": "66",
+      "days": "5",
+      "deposit": "66",
+      "payment": "66111",
+      "total": 330555,
+      "id": 10
     }
   ]
 }

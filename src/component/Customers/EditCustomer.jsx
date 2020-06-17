@@ -13,7 +13,7 @@ const EditCustomer = ({ open, close, currentCustomer, update }) => {
     setCustomer({ ...customer, [name]: value });
   };
 
-  const updateCustomer = (id, updatedCustomer) => (event) => {
+  const updateCustomer = (updatedCustomer) => (event) => {
     event.preventDefault(event);
     update(updatedCustomer);
     close();
@@ -22,7 +22,7 @@ const EditCustomer = ({ open, close, currentCustomer, update }) => {
   return (
     <div>
       <Modal open={open} dimmer="inverted" onClose={close}>
-        <Modal.Header>EDIT Customer</Modal.Header>
+        <Modal.Header>Редактировать клиента</Modal.Header>
 
         <Modal.Content>
           <Form>
@@ -71,7 +71,7 @@ const EditCustomer = ({ open, close, currentCustomer, update }) => {
           </Button>
           <Button
             positive
-            onClick={updateCustomer(customer.id, customer)}
+            onClick={updateCustomer(customer)}
             disabled={Object.keys(customer).length !== 5}
           >
             <Icon name="checkmark" /> Сохранить

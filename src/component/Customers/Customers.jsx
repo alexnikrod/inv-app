@@ -23,8 +23,6 @@ const Customers = (props) => {
     });
   };
 
-  
-
   return (
     <Segment>
       <Segment clearing>
@@ -47,6 +45,11 @@ const Customers = (props) => {
           Новый клиент
         </Button>
       </div>
+      <NewCustomer
+        open={showModal}
+        close={() => setShowModal(false)}
+        addNew={props.addNew}
+      />
 
       <Table striped>
         <Table.Header>
@@ -85,17 +88,17 @@ const Customers = (props) => {
                 >
                   <Icon name="x" />
                 </Button>
+                <EditCustomer
+                  open={isEdit}
+                  close={() => setIsEdit(false)}
+                  currentCustomer={currentCustomer}
+                  update={props.update}
+                />
               </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
       </Table>
-      <EditCustomer open={isEdit} close={() => setIsEdit(false)} currentCustomer={currentCustomer} update={props.update}/>
-      <NewCustomer
-        open={showModal}
-        close={() => setShowModal(false)}
-        addNew={props.addNew}
-      />
     </Segment>
   );
 };

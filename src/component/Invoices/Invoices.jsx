@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Button, Icon, Segment, Header } from "semantic-ui-react";
-import AddNewInvoice from "./AddNewInvoice";
-import AddNewCustomer from "../Customers/AddNewCustomer";
+
+import NewInvoice from "./NewInvoice";
+import EditInvoice from "./EditInvoice";
 
 const Invoices = (props) => {
+  const [showModal, setShowModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [currentInvoice, setCurrentInvoice] = useState({});
+
   const { invoices } = props.invoices;
+
+  const onEdit = (invoice) => (event) => {
+    event.preventDefault(event);
+    setIsEdit(true);
+    setCurrentInvoice({
+      id: invoice.id,
+      customer: invoice.customer,
+      product: invoice.product,
+      deposit: invoice.deposit,
+      days: invoice.days,
+      payment: invoice.payment,
+      total: invoice.total,
+    });
+  };
 
   return (
     <Segment>
@@ -17,10 +36,23 @@ const Invoices = (props) => {
         </Header>
       </Segment>
 
-      <div className="add-btn">
-        <AddNewInvoice />
-        <AddNewCustomer />
+      <div>
+        <Button
+          positive
+          labelPosition="left"
+          icon
+          onClick={() => setShowModal(true)}
+        >
+          <Icon name="file" /> Создать заказ
+        </Button>
       </div>
+      <NewInvoice
+        open={showModal}
+        close={() => setShowModal(false)}
+        addNew={props.addNew}
+        customers={props.customers}
+        products={props.products}
+      />
 
       <Table striped>
         <Table.Header>
@@ -50,7 +82,12 @@ const Invoices = (props) => {
                 <Button icon positive title="закрыть">
                   <Icon name="chevron down" />
                 </Button>
-                <Button icon color="orange" title="редактировать">
+                <Button
+                  icon
+                  color="orange"
+                  onClick={onEdit(item)}
+                  title="редактировать"
+                >
                   <Icon name="edit" />
                 </Button>
                 <Button
@@ -61,6 +98,14 @@ const Invoices = (props) => {
                 >
                   <Icon name="x" />
                 </Button>
+                <EditInvoice
+                  open={isEdit}
+                  close={() => setIsEdit(false)}
+                  customers={props.customers}
+                  products={props.products}
+                  currentInvoice={currentInvoice}
+                  update={props.update}
+                />
               </Table.Cell>
             </Table.Row>
           ))}

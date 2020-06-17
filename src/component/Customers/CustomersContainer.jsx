@@ -6,7 +6,7 @@ import {
   fetchCustomers,
   fetchDeleteCustomer,
   fetchPutCustomers,
-  fetchEditCustomers
+  fetchEditCustomers,
 } from "../../redux/customersReducer";
 
 class CustomersContainer extends React.Component {
@@ -19,29 +19,12 @@ class CustomersContainer extends React.Component {
     this.props.fetchDeleteCustomer(id);
   };
 
-  editCustomer = (id) => (event) => {
-    event.preventDefault(event);
-    const { customers } = this.props.customers;
-    console.log(customers)
-    const customerToEdit = customers.find(item => item.id === id)
-    console.log("cutomerToEdit", customerToEdit)
-    this.props.fetchEditCustomers(customerToEdit)
-  }
-
-  // editCustomer = (id, updatedCustomer) => {
-  //   const { customers } = this.props.customers;
-  //   let edited = customers.map(customer => (customer.id === id ? updatedCustomer : customer))
-
-  //   console.log(updatedCustomer)
-  // }
-
   render() {
     return (
       <Customers
         {...this.props}
         customers={this.props.customers}
         onDelete={this.deleteCustomer}
-        editCustomer={this.editCustomer}
         addNew={this.props.fetchPutCustomers}
         update={this.props.fetchEditCustomers}
       />
@@ -60,7 +43,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchCustomers: (payload) => dispatch(fetchCustomers(payload)),
     fetchDeleteCustomer: (payload) => dispatch(fetchDeleteCustomer(payload)),
     fetchPutCustomers: (payload) => dispatch(fetchPutCustomers(payload)),
-    fetchEditCustomers: payload => dispatch(fetchEditCustomers(payload))
+    fetchEditCustomers: (payload) => dispatch(fetchEditCustomers(payload)),
   };
 };
 

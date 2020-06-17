@@ -5,9 +5,10 @@ import Invoices from "./Invoices";
 import {
   fetchInvoices,
   fetchdeleteInvoice,
-  invoiceModalShow,
+  fetchPutInvoices,
+  fetchEditInvoices,
 } from "../../redux/invoicesReducer";
-import { fetchCustomers, customerModalShow } from "../../redux/customersReducer";
+import { fetchCustomers } from "../../redux/customersReducer";
 import { fetchProducts } from "../../redux/productsReducer";
 
 class InvoicesContainer extends React.Component {
@@ -23,13 +24,18 @@ class InvoicesContainer extends React.Component {
   };
 
   render() {
+    const { customers } = this.props.customers;
+    const { products } = this.props.products;
+
     return (
       <Invoices
         {...this.props}
         invoices={this.props.invoices}
+        customers={customers}
+        products={products}
         onDelete={this.deleteInvoice}
-        invoiceModalShow={this.props.invoiceModalShow}
-        customerModalShow={this.props.customerModalShow}
+        addNew={this.props.fetchPutInvoices}
+        update={this.props.fetchEditInvoices}
       />
     );
   }
@@ -38,6 +44,8 @@ class InvoicesContainer extends React.Component {
 const mapStateToProps = (store) => {
   return {
     invoices: store.invoices,
+    customers: store.customers,
+    products: store.products
   };
 };
 
@@ -47,8 +55,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchCustomers: (payload) => dispatch(fetchCustomers(payload)),
     fetchProducts: (payload) => dispatch(fetchProducts(payload)),
     fetchdeleteInvoice: (payload) => dispatch(fetchdeleteInvoice(payload)),
-    invoiceModalShow: (payload) => dispatch(invoiceModalShow(payload)),
-    customerModalShow: (payload) => dispatch(customerModalShow(payload)),
+    fetchPutInvoices: (payload) => dispatch(fetchPutInvoices(payload)),
+    fetchEditInvoices: (payload) => dispatch(fetchEditInvoices(payload)),
   };
 };
 

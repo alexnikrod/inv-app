@@ -5,6 +5,8 @@ import Products from "./Products";
 import {
   fetchProducts,
   fetchDeleteProducts,
+  fetchPutProducts,
+  fetchEditProducts
 } from "../../redux/productsReducer";
 
 class ProductsContainer extends React.Component {
@@ -23,6 +25,8 @@ class ProductsContainer extends React.Component {
         {...this.props}
         products={this.props.products}
         onDelete={this.deleteProduct}
+        addNew={this.props.fetchPutProducts}
+        update={this.props.fetchEditProducts}
       />
     );
   }
@@ -38,6 +42,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchProducts: (payload) => dispatch(fetchProducts(payload)),
     fetchDeleteProducts: (payload) => dispatch(fetchDeleteProducts(payload)),
+    fetchPutProducts: (payload) => dispatch(fetchPutProducts(payload)),
+    fetchEditProducts: (payload) => dispatch(fetchEditProducts(payload)),
   };
 };
 

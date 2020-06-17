@@ -7,13 +7,8 @@ export const FETCH_PUT_CUSTOMERS_SUCCESSFUL = "FETCH_PUT_CUSTOMERS_SUCCESSFUL";
 export const FETCH_EDIT_CUSTOMERS_SUCCESSFUL =
   "FETCH_EDIT_CUSTOMERS_SUCCESSFUL";
 
-export const CUSTOMER_MODAL_SHOW = "CUSTOMER_MODAL_SHOW";
-export const CUSTOMER_MODAL_HIDE = "CUSTOMER_MODAL_HIDE";
-
 const customerState = {
-  /* customers */
   customers: [],
-  customerModalShow: false,
 };
 
 const customersReducer = (state = customerState, action) => {
@@ -33,13 +28,6 @@ const customersReducer = (state = customerState, action) => {
         ...state,
         customers: updatedCustomers,
       };
-    case CUSTOMER_MODAL_SHOW:
-      return { ...state, customerModalShow: true };
-    case CUSTOMER_MODAL_HIDE:
-      return {
-        ...state,
-        customerModalShow: false,
-      };
     case FETCH_PUT_CUSTOMERS_SUCCESSFUL:
       const newCustomers = [...customersCopy, action.payload];
       return {
@@ -47,29 +35,16 @@ const customersReducer = (state = customerState, action) => {
         customers: newCustomers,
       };
     case FETCH_EDIT_CUSTOMERS_SUCCESSFUL:
-      console.log("case: ", action.payload)
       return {
         ...state,
-        customers: state.customers.map(
-          item => 
-          item.id === action.payload.id
-            ? action.payload
-            : item
+        customers: state.customers.map((item) =>
+          item.id === action.payload.id ? action.payload : item
         ),
       };
-
     default:
       return state;
   }
 };
-
-export function customerModalShow(payload) {
-  return { type: CUSTOMER_MODAL_SHOW, payload };
-}
-
-export function customerModalHide(payload) {
-  return { type: CUSTOMER_MODAL_HIDE, payload };
-}
 
 export function fetchCustomersSuccessful(payload) {
   return { type: FETCH_CUSTOMERS_SUCCESSFUL, payload };
@@ -125,8 +100,6 @@ export function fetchEditCustomersSuccessful(data) {
 }
 
 export const fetchEditCustomers = ({ id, name, pass, address, phone }) => {
-  console.log("ac: ")
-  // const {name, pass, address, phone} = payload;
   return async (dispatch) => {
     let response = await customerAPI.editCustomer({
       id,
@@ -135,7 +108,6 @@ export const fetchEditCustomers = ({ id, name, pass, address, phone }) => {
       address,
       phone,
     });
-    console.log("before dispatch: ", response)
     dispatch(fetchEditCustomersSuccessful(response));
   };
 };
