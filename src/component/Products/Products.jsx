@@ -46,11 +46,11 @@ const Products = (props) => {
           <Icon name="wrench" />
           Добавить инструмент
         </Button>
-        {/* <Checkbox 
+        <Checkbox 
         toggle 
         label="в наличии" 
         className="toggle-btn"
-        /> */}
+        />
       </div>
       <NewProduct
         open={showModal}

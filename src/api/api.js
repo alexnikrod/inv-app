@@ -1,8 +1,8 @@
 import * as axios from "axios";
 
 const instance = axios.create({
-  // baseURL: "http://localhost:3001",
-  baseURL: "https://server-invoices1.herokuapp.com"
+  baseURL: "http://localhost:3001",
+  // baseURL: "https://server-invoices1.herokuapp.com"
 });
 // INVOICES
 export const invoiceAPI = {
@@ -101,3 +101,36 @@ export const productAPI = {
       });
   },
 };
+// HISTORY
+export const historyAPI = {
+  getHistory() {
+    return instance.get(`/archive`).then((response) => {
+      return response.data;
+    });
+  },
+  deleteHistory(id) {
+    return instance.delete(`/archive/${id}`);
+  },
+  editHistory({ id, customer, product, days, deposit, payment, total }) {
+    return instance
+      .put(`/archive/${id}`, { customer, product, days, deposit, payment, total })
+      .then((response) => {
+        return response.data;
+      });
+  },
+  addHistory({ id, customer, product, days, deposit, payment, total }) {
+    return instance
+      .post(`/archive`, {
+        id,
+        customer,
+        product,
+        days,
+        deposit,
+        payment,
+        total,
+      })
+      .then((response) => {
+        return response.data;
+      });
+  },
+}

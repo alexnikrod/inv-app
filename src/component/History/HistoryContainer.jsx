@@ -2,33 +2,58 @@ import React from "react";
 import { connect } from "react-redux";
 
 import History from "./History";
-import { fetchInvoices, fetchdeleteInvoice } from "../../redux/invoicesReducer";
+import { fetchCustomers } from "../../redux/customersReducer";
+import { fetchProducts } from "../../redux/productsReducer";
+import {
+  fetchHistory,
+  fetchDeleteHistory,
+  fetchEditHistory,
+} from "../../redux/historyReducer";
 
 class HistoryContainer extends React.Component {
   componentDidMount() {
-    this.props.fetchInvoices();
+    this.props.fetchHistory();
+    this.props.fetchCustomers();
+    this.props.fetchProducts();
   }
 
-  deleteInvoice = id => event => {
+  deleteRecord = (id) => (event) => {
     event.preventDefault(event);
-    this.props.fetchdeleteInvoice(id)
-};
+    this.props.fetchDeleteHistory(id);
+  };
 
   render() {
-    return <History {...this.props} invoices={this.props.invoices} onDelete={this.deleteInvoice}/>;
+    const { customers } = this.props.customers;
+    const { products } = this.props.products;
+
+    return (
+      <History
+        {...this.props}
+        history={this.props.history}
+        customers={customers}
+        products={products}
+        onDelete={this.deleteRecord}
+        update={this.props.fetchEditHistory}
+      />
+    );
   }
 }
 
 const mapStateToProps = (store) => {
   return {
-    invoices: store.invoices,
+    history: store.history,
+    customers: store.customers,
+    products: store.products,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInvoices: (payload) => dispatch(fetchInvoices(payload)),
-    fetchdeleteInvoice: payload => dispatch(fetchdeleteInvoice(payload)),
+    fetchHistory: (payload) => dispatch(fetchHistory(payload)),
+    fetchDeleteHistory: (payload) => dispatch(fetchDeleteHistory(payload)),
+    fetchEditHistory: (payload) => dispatch(fetchEditHistory(payload)),
+    fetchCustomers: (payload) => dispatch(fetchCustomers(payload)),
+    fetchProducts: (payload) => dispatch(fetchProducts(payload)),
   };
 };
 

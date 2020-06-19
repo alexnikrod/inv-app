@@ -3,9 +3,11 @@ import { Table, Button, Icon, Segment, Header } from "semantic-ui-react";
 
 import NewInvoice from "./NewInvoice";
 import EditInvoice from "./EditInvoice";
+import NewCustomer from "../Customers/NewCustomer";
 
 const Invoices = (props) => {
   const [showModal, setShowModal] = useState(false);
+  const [showCustomerModal, setShowCustomerModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [currentInvoice, setCurrentInvoice] = useState({});
 
@@ -23,6 +25,12 @@ const Invoices = (props) => {
       payment: invoice.payment,
       total: invoice.total,
     });
+  };
+
+  const onFinish = (invoice) => (event) => {
+    event.preventDefault(event);
+    props.sendToHistory(invoice);
+    props.finish(invoice.id);
   };
 
   return (
@@ -45,6 +53,15 @@ const Invoices = (props) => {
         >
           <Icon name="file" /> Создать заказ
         </Button>
+        <Button
+          positive
+          labelPosition="left"
+          icon
+          onClick={() => setShowCustomerModal(true)}
+        >
+          <Icon name="user" />
+          Новый клиент
+        </Button>
       </div>
       <NewInvoice
         open={showModal}
@@ -53,7 +70,11 @@ const Invoices = (props) => {
         customers={props.customers}
         products={props.products}
       />
-
+      <NewCustomer
+        open={showCustomerModal}
+        close={() => setShowCustomerModal(false)}
+        addNew={props.addNewCustomer}
+      />
       <Table striped>
         <Table.Header>
           <Table.Row textAlign="center">
@@ -79,7 +100,7 @@ const Invoices = (props) => {
               <Table.Cell verticalAlign="middle">{item.payment}</Table.Cell>
               <Table.Cell verticalAlign="middle">{item.total}</Table.Cell>
               <Table.Cell verticalAlign="middle">
-                <Button icon positive title="закрыть">
+                <Button icon positive title="закрыть" onClick={onFinish(item)}>
                   <Icon name="chevron down" />
                 </Button>
                 <Button

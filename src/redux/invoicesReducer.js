@@ -5,6 +5,7 @@ const FETCH_DELETE_INVOICES_SUCCESSFUL = "FETCH_DELETE_INVOICES_SUCCESSFUL";
 const FETCH_PUT_INVOICES_SUCCESSFUL = "FETCH_PUT_INVOICES_SUCCESSFUL";
 const FETCH_EDIT_INVOICES_SUCCESSFUL = "FETCH_EDIT_INVOICES_SUCCESSFUL";
 
+
 const invoiceState = {
   invoices: [],
 };
@@ -52,15 +53,15 @@ export const fetchInvoices = () => {
   };
 };
 
-export const fetchdeleteInvoiceSuccessful = (invId) => {
+export const fetchDeleteInvoiceSuccessful = (invId) => {
   return { type: FETCH_DELETE_INVOICES_SUCCESSFUL, invId };
 };
 
-export const fetchdeleteInvoice = (id) => {
+export const fetchDeleteInvoice = (id) => {
   return async (dispatch) => {
     let response = await invoiceAPI.deleteInvoice(id);
     console.log(response);
-    dispatch(fetchdeleteInvoiceSuccessful(id));
+    dispatch(fetchDeleteInvoiceSuccessful(id));
   };
 };
 

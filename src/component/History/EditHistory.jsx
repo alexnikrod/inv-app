@@ -3,36 +3,36 @@ import { Button, Modal, Icon, Form } from "semantic-ui-react";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const EditInvoice = ({
+const EditHistory = ({
   open,
   close,
   customers,
   products,
-  currentInvoice,
+  currentHistory,
   update,
 }) => {
-  const [values, setValues] = useState(currentInvoice);
+  const [values, setValues] = useState(currentHistory);
 
   useEffect(() => {
-    setValues(currentInvoice);
-  }, [currentInvoice]);
+    setValues(currentHistory);
+  }, [currentHistory]);
 
   const handleOnChange = ({ target: { value, name } }) => {
     setValues({ ...values, [name]: value });
   };
 
-  const updateInvoice = (values) => (event) => {
+  const updateHistory = (values) => (event) => {
     event.preventDefault(event);
     const currentProduct = products.find(
       (item) => item.name === values.product
     );
-    const editInvoice = {
+    const editHistory = {
       ...values,
       deposit: currentProduct.deposit,
       payment: currentProduct.payment,
       total: currentProduct.payment * values.days,
     };
-    update(editInvoice);
+    update(editHistory);
     close();
   };
 
@@ -58,16 +58,7 @@ const EditInvoice = ({
     <div>
       <Modal open={open} dimmer="inverted" onClose={close}>
         <Modal.Header>
-          Редактировать заказ
-          <Button
-            primary
-            floated="right"
-            onClick={() => console.log("print me")}
-            // disabled={Object.keys(values).length !== 3}
-          >
-            <Icon name="print" />
-            Печатать
-          </Button>
+          Редактировать archive record
         </Modal.Header>
 
         <Modal.Content>
@@ -111,7 +102,7 @@ const EditInvoice = ({
           <Button onClick={close}>
             <Icon name="remove" /> Отменить
           </Button>
-          <Button positive onClick={updateInvoice(values)}>
+          <Button positive onClick={updateHistory(values)}>
             <Icon name="checkmark" /> Сохранить
           </Button>
         </Modal.Actions>
@@ -120,4 +111,4 @@ const EditInvoice = ({
   );
 };
 
-export default EditInvoice;
+export default EditHistory;
