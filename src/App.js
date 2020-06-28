@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import { withSuspense } from "./component/withSuspense";
 import NavBar from "./component/NavBar";
-import AuthProvider from './component/Auth'
 
 import "./App.css";
 import Login from "./component/Login";
@@ -23,7 +22,6 @@ const HistoryContainer = React.lazy(() =>
 
 function App() {
   return (
-    // <AuthProvider>
     <div className="wrapper">
       <NavBar />
       <Switch>
@@ -35,7 +33,6 @@ function App() {
         <Route exact path="/login" component={Login} />
       </Switch>
     </div>
-    // </AuthProvider>
   );
 }
 
