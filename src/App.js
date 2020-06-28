@@ -30,7 +30,7 @@ function App() {
         <Route path="/customers" render={withSuspense(CustomersContainer)} />
         <Route path="/products" render={withSuspense(ProductsContainer)} />
         <Route path="/history" render={withSuspense(HistoryContainer)} />
-        <Route path="/login" component={Login} />
+        <Route path="/login" render={() => <Login />} />
       </Switch>
     </div>
   );
