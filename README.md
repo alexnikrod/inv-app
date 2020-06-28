@@ -1,4 +1,4 @@
-## [DEMO](https://invoice-app-h0qshbj9x.now.sh)
+## [DEMO](https://invoice-app-tau.now.sh/)
 
 ## Rental App (Invoices, DB) - React JS + Redux
 
