@@ -58,7 +58,7 @@ const EditHistory = ({
     <div>
       <Modal open={open} dimmer="inverted" onClose={close}>
         <Modal.Header>
-          Редактировать archive record
+          Редактировать запись
         </Modal.Header>
 
         <Modal.Content>
