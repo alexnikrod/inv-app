@@ -3,9 +3,10 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import { withSuspense } from "./component/withSuspense";
 import NavBar from "./component/NavBar";
+import Login from "./component/Login";
 
 import "./App.css";
-import Login from "./component/Login";
+
 // Lazy loading with Suspense
 const InvoicesContainer = React.lazy(() =>
   import("./component/Invoices/InvoicesContainer")
