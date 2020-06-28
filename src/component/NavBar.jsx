@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Menu, Segment } from "semantic-ui-react";
+import { Header, Menu, Segment } from "semantic-ui-react";
 import logo from "../assets/img/iceberg.png";
 import { NavLink } from "react-router-dom";
 
@@ -18,7 +18,7 @@ export default class NavBar extends Component {
             <img src={logo} alt="Iceberg" />
           </Menu.Item>
           <Menu.Item>
-            <h2>Айсберг Прокат</h2>
+            <h2 style={{ fontWeight: 700 }}>Айсберг Прокат</h2>
           </Menu.Item>
           <Menu.Item
             name="orders"
@@ -48,11 +48,11 @@ export default class NavBar extends Component {
           >
             <NavLink to="/history">История Заказов</NavLink>
           </Menu.Item>
-          <Menu.Menu position="left">
+          {/* <Menu.Menu position="left">
             <Menu.Item>
               <Input icon="search" placeholder="Поиск..." />
             </Menu.Item>
-          </Menu.Menu>
+          </Menu.Menu> */}
           <Menu.Menu position="right">
             <Menu.Item
               name="login"

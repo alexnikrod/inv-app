@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-
+// TODO: id from put and db if the same doesnt change
 import History from "./History";
 import { fetchCustomers } from "../../redux/customersReducer";
 import { fetchProducts } from "../../redux/productsReducer";
